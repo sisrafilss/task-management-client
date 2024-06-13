@@ -1,5 +1,5 @@
 const Footer = () => (
-  <footer className="bg-blue-500 text-white p-4 mt-4">
+  <footer className="bg-blue-500 text-white p-4">
     <p>&copy; 2024 Task Manager. All rights reserved.</p>
     <ul className="flex justify-center">
       <li className="mx-2">
