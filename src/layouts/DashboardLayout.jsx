@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { FaBars, FaTasks, FaPlus, FaSignOutAlt, FaTachometerAlt } from "react-icons/fa";
+import { FaBars, FaTasks, FaPlus, FaSignOutAlt } from "react-icons/fa";
 
 const DashboardLayout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -29,7 +29,7 @@ const DashboardLayout = () => {
         </div>
 
         {/* Main content */}
-        <div className="flex flex-col items-center justify-center min-h-screen">
+        <div className="flex flex-col  min-h-screen">
           <Outlet />
         </div>
       </div>
@@ -53,18 +53,10 @@ const DashboardLayout = () => {
               Task Manager
             </Link>
           </li>
+         
           <li>
             <Link
-              to=""
-              className="flex items-center p-2 hover:bg-gray-700 rounded"
-              onClick={closeDrawer}
-            >
-              <FaTachometerAlt className="mr-2" /> Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/add-new"
+              to="add-new"
               className="flex items-center p-2 hover:bg-gray-700 rounded"
               onClick={closeDrawer}
             >
@@ -73,7 +65,7 @@ const DashboardLayout = () => {
           </li>
           <li>
             <Link
-              to="/manage-tasks"
+              to=""
               className="flex items-center p-2 hover:bg-gray-700 rounded"
               onClick={closeDrawer}
             >
