@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FaGoogle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const {
@@ -13,7 +14,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4 shadow-md">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4">
       <div className="max-w-md w-full bg-white shadow-md rounded-lg p-8">
         <h2 className="text-3xl font-bold mb-4 text-center">Welcome Back</h2>
         <p className="text-gray-600 mb-8 text-center">
@@ -25,7 +26,7 @@ const LoginPage = () => {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email *
+              Email <span className="text-red-500">*</span>
             </label>
             <input
               id="email"
@@ -45,7 +46,7 @@ const LoginPage = () => {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              Password *
+              Password <span className="text-red-500">*</span>
             </label>
             <input
               id="password"
@@ -66,11 +67,18 @@ const LoginPage = () => {
         </form>
 
         <div className="mt-6 flex flex-col space-y-4">
-          <button className="w-full btn btn-outline flex items-center justify-center space-x-2">
+          <button className="w-full btn btn-outline btn-error flex items-center justify-center space-x-2">
             <FaGoogle className="text-lg" />
             <span>Login with Google</span>
           </button>
         </div>
+
+        <p className="mt-6 text-center text-gray-600">
+          Not registered yet?{" "}
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );
