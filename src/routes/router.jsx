@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import DashboardLayout from "../layouts/DashboardLayout";
 import ManageTasks from "../pages/Dashboard/ManageTasks";
+import AddNewTask from "../pages/Dashboard/AddNewTask";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: "",
         element: <ManageTasks />,
+      },
+      {
+        path: "add-new",
+        element: <AddNewTask />,
       },
     ],
   },
