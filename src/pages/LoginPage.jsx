@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
+import useAuth from "../hooks/useAuth";
 
 const LoginPage = () => {
+  const { signIn } = useAuth();
   const {
     register,
     handleSubmit,
@@ -11,6 +13,15 @@ const LoginPage = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    // Simulate a login attempt and error handling
+    if (data.password !== "correct_password") {
+      // setLoginError("Incorrect password. Please try again.");
+    } else {
+      // setLoginError("");
+      console.log("Login successful");
+      // Redirect or perform post-login actions here
+    }
+    signIn(data?.email, data?.password);
   };
 
   return (
