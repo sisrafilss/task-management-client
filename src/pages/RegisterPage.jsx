@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { serverURL } from "../../serverURL";
 
 const RegisterPage = () => {
-  const { createUser, } = useAuth();
+  const { createUser, user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location?.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -40,16 +44,22 @@ const RegisterPage = () => {
             name: data?.name,
           };
 
-          axios
-            .post(`${serverURL}/user`, userData)
-            .then((response) => {
-              console.log(response.data.token);
-              localStorage.setItem("token", response?.data?.token);
-            });
+          axios.post(`${serverURL}/user`, userData).then((response) => {
+            console.log(response.data.token);
+            localStorage.setItem("token", response?.data?.token);
+          });
         }
       });
     }
   };
+
+  // Redirect user where he came from or to homepage
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+      console.log(from);
+    }
+  }, [from, navigate, user]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4">

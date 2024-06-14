@@ -7,6 +7,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import ManageTasks from "../pages/Dashboard/ManageTasks";
 import AddNewTask from "../pages/Dashboard/AddNewTask";
 import ErrorPage from "../pages/ErrorPage";
+import PrivateRoute from "./private/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -35,11 +36,19 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <ManageTasks />,
+        element: (
+          <PrivateRoute>
+            <ManageTasks />
+          </PrivateRoute>
+        ),
       },
       {
         path: "add-new",
-        element: <AddNewTask />,
+        element: (
+          <PrivateRoute>
+            <AddNewTask />
+          </PrivateRoute>
+        ),
       },
     ],
   },

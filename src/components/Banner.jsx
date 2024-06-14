@@ -17,7 +17,7 @@ const Banner = () => {
           Organize, prioritize, and achieve your goals with our intuitive task
           management tool.
         </p>
-        <Link to="/login" className="mt-8">
+        <Link to="dashboard" className="mt-8">
           <button className="btn btn-primary">Let’s Explore</button>
         </Link>
       </div>

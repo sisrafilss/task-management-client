@@ -1,10 +1,17 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
 import useAuth from "../hooks/useAuth";
+import { useEffect } from "react";
 
 const LoginPage = () => {
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location?.state?.from?.pathname || "/";
+
   const {
     register,
     handleSubmit,
@@ -23,6 +30,14 @@ const LoginPage = () => {
     }
     signIn(data?.email, data?.password);
   };
+
+  // Redirect user where he came from or to homepage
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+      console.log(from);
+    }
+  }, [from, navigate, user]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-100 p-4">
