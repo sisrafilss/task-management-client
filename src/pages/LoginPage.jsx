@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import GoogleLogin from "../components/GoogleLogin";
 
 const LoginPage = () => {
   const {
@@ -66,12 +66,7 @@ const LoginPage = () => {
           </button>
         </form>
 
-        <div className="mt-6 flex flex-col space-y-4">
-          <button className="w-full btn btn-outline btn-error flex items-center justify-center space-x-2">
-            <FaGoogle className="text-lg" />
-            <span>Login with Google</span>
-          </button>
-        </div>
+        <GoogleLogin />
 
         <p className="mt-6 text-center text-gray-600">
           Not registered yet?{" "}
