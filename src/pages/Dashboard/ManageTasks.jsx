@@ -1,18 +1,30 @@
 /* eslint-disable no-unused-vars */
 // src/App.jsx
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 // import Modal from "react-modal";
 import toast, { Toaster } from "react-hot-toast";
 import TaskDetailModal from "../../components/TaskDetailModal";
-import { initialTasks } from "./draft";
+import axios from "axios";
+import { serverURL } from "../../../serverURL";
 
 // Modal.setAppElement('#root');
 
 const ManageTasks = () => {
-  const [toDos, setToDos] = useState(initialTasks.todo);
-  const [onGoing, setOnGoing] = useState(initialTasks.ongoing);
-  const [completed, setCompleted] = useState(initialTasks.completed);
+  const [toDos, setToDos] = useState([]);
+  const [onGoing, setOnGoing] = useState([]);
+  const [completed, setCompleted] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${serverURL}/tasks`).then((res) => {
+      console.log("data", res.data)
+      setToDos(res.data.filter((task) => task.section === "todo"));
+      setOnGoing(res.data.filter((task) => task.section === "ongoing"));
+      setCompleted(res.data.filter((task) => task.section === "completed"));
+    });
+  }, []);
+
+  console.log("todos", toDos);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -38,16 +50,22 @@ const ManageTasks = () => {
   const handleMove = (section, taskId) => {
     let task;
     if (section === "todo") {
-      task = toDos.find((task) => task.id === taskId);
-      setToDos(toDos.filter((task) => task.id !== taskId));
+      task = toDos.find((task) => task._id === taskId);
+      task.section = "todo";
+      // axios.patch(`${serverURL}/tasks/${taskId}`, task);
+      setToDos(toDos.filter((task) => task._id !== taskId));
       setOnGoing([...onGoing, task]);
     } else if (section === "ongoing") {
-      task = onGoing.find((task) => task.id === taskId);
-      setOnGoing(onGoing.filter((task) => task.id !== taskId));
+      task = onGoing.find((task) => task._id === taskId);
+      task.section = "ongoing";
+      // axios.patch(`${serverURL}/tasks/${taskId}`, task);
+      setOnGoing(onGoing.filter((task) => task._id !== taskId));
       setCompleted([...completed, task]);
     } else if (section === "completed") {
-      task = completed.find((task) => task.id === taskId);
-      setCompleted(completed.filter((task) => task.id !== taskId));
+      task = completed.find((task) => task._id === taskId);
+      task.section = "completed";
+      // axios.patch(`${serverURL}/tasks/${taskId}`, task);
+      setCompleted(completed.filter((task) => task._id !== taskId));
       setToDos([...toDos, task]);
     }
   };
@@ -66,12 +84,13 @@ const ManageTasks = () => {
           <button
             className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
             onClick={() => {
+              axios.delete(`${serverURL}/tasks/${taskId}`)
               if (section === "todo") {
-                setToDos(toDos.filter((task) => task.id !== taskId));
+                setToDos(toDos.filter((task) => task._id !== taskId));
               } else if (section === "ongoing") {
-                setOnGoing(onGoing.filter((task) => task.id !== taskId));
+                setOnGoing(onGoing.filter((task) => task._id !== taskId));
               } else if (section === "completed") {
-                setCompleted(completed.filter((task) => task.id !== taskId));
+                setCompleted(completed.filter((task) => task._id !== taskId));
               }
               toast.dismiss(t.id);
               toast.success("Task deleted successfully");
@@ -125,7 +144,7 @@ const ManageTasks = () => {
             </thead>
             <tbody>
               {toDos.map((task) => (
-                <tr key={task.id} className="text-center border-t">
+                <tr key={task._id} className="text-center border-t">
                   <td className="py-2 px-4 border-b">{task.title}</td>
                   <td className="py-2 px-4 border-b">{task.deadline}</td>
                   <td className="py-2 px-4 border-b">{task.priority}</td>
@@ -138,13 +157,13 @@ const ManageTasks = () => {
                     </button>
                     <button
                       className="text-green-500 hover:text-green-700"
-                      onClick={() => handleMove("todo", task.id)}
+                      onClick={() => handleMove("todo", task._id)}
                     >
                       Move to Ongoing
                     </button>
                     <button
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDelete("todo", task.id)}
+                      onClick={() => handleDelete("todo", task._id)}
                     >
                       <FaTrashAlt />
                     </button>
@@ -168,7 +187,7 @@ const ManageTasks = () => {
             </thead>
             <tbody>
               {onGoing.map((task) => (
-                <tr key={task.id} className="text-center border-t">
+                <tr key={task._id} className="text-center border-t">
                   <td className="py-2 px-4 border-b">{task.title}</td>
                   <td className="py-2 px-4 border-b">{task.deadline}</td>
                   <td className="py-2 px-4 border-b">{task.priority}</td>
@@ -181,13 +200,13 @@ const ManageTasks = () => {
                     </button>
                     <button
                       className="text-green-500 hover:text-green-700"
-                      onClick={() => handleMove("ongoing", task.id)}
+                      onClick={() => handleMove("ongoing", task._id)}
                     >
                       Move to Completed
                     </button>
                     <button
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDelete("ongoing", task.id)}
+                      onClick={() => handleDelete("ongoing", task._id)}
                     >
                       <FaTrashAlt />
                     </button>
@@ -211,7 +230,7 @@ const ManageTasks = () => {
             </thead>
             <tbody>
               {completed.map((task) => (
-                <tr key={task.id} className="text-center border-t">
+                <tr key={task._id} className="text-center border-t">
                   <td className="py-2 px-4 border-b">{task.title}</td>
                   <td className="py-2 px-4 border-b">{task.deadline}</td>
                   <td className="py-2 px-4 border-b">{task.priority}</td>
@@ -224,13 +243,13 @@ const ManageTasks = () => {
                     </button>
                     <button
                       className="text-green-500 hover:text-green-700"
-                      onClick={() => handleMove("completed", task.id)}
+                      onClick={() => handleMove("completed", task._id)}
                     >
                       Move to Todo
                     </button>
                     <button
                       className="text-red-500 hover:text-red-700"
-                      onClick={() => handleDelete("completed", task.id)}
+                      onClick={() => handleDelete("completed", task._id)}
                     >
                       <FaTrashAlt />
                     </button>

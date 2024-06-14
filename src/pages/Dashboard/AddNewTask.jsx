@@ -8,6 +8,7 @@ const AddNewTask = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -15,6 +16,8 @@ const AddNewTask = () => {
   const onSubmit = (data) => {
     // Log the form data to the console
     console.log("Form Data:", data);
+
+    data.section = "todo";
     axios
       .post(`${serverURL}/tasks`, data, {
         headers: {
@@ -27,7 +30,7 @@ const AddNewTask = () => {
         if (response.data?.insertedId) {
           toast.success("Task added successfully!");
         }
-        // reset();
+        reset();
       })
       .catch(function (error) {
         console.log(error);
