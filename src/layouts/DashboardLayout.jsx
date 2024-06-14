@@ -58,6 +58,15 @@ const DashboardLayout = () => {
 
           <li>
             <Link
+              to="profile"
+              className="flex items-center p-2 hover:bg-gray-700 rounded"
+              onClick={closeDrawer}
+            >
+              <FaPlus className="mr-2" /> Profile
+            </Link>
+          </li>
+          <li>
+            <Link
               to="add-new"
               className="flex items-center p-2 hover:bg-gray-700 rounded"
               onClick={closeDrawer}
