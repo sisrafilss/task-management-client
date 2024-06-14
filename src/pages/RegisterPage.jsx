@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
+import useAuth from "../hooks/useAuth";
 
 const RegisterPage = () => {
+  const { createUser, } = useAuth();
   const {
     register,
     handleSubmit,
@@ -15,11 +17,37 @@ const RegisterPage = () => {
   const [passwordMatch, setPasswordMatch] = useState(true);
 
   useEffect(() => {
-    setPasswordMatch(password === confirmPassword);
+    if (password) {
+      setPasswordMatch(password === confirmPassword);
+    }
   }, [password, confirmPassword]);
 
   const onSubmit = (data) => {
     console.log(data);
+    // Simulate registration and error handling
+    if (data.password !== data.confirmPassword) {
+      // setRegistrationError("Passwords do not match. Please try again.");
+    } else {
+      // setRegistrationError("");
+      console.log("Registration successful");
+      // Redirect or perform post-registration actions here
+      createUser(data?.email, data?.password).then((response) => {
+        if (response?.user.email) {
+          const userData = {
+            email: response?.user?.email,
+            name: data?.name,
+          };
+
+          console.log("User Data:", userData);
+          // axios
+          //   .post("http://localhost:5000/user", userData)
+          //   .then((response) => {
+          //     console.log(response.data.token);
+          //     localStorage.setItem("token", response?.data?.token);
+          //   });
+        }
+      });
+    }
   };
 
   return (
