@@ -6,11 +6,13 @@ import RegisterPage from "../pages/RegisterPage";
 import DashboardLayout from "../layouts/DashboardLayout";
 import ManageTasks from "../pages/Dashboard/ManageTasks";
 import AddNewTask from "../pages/Dashboard/AddNewTask";
+import ErrorPage from "../pages/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -29,6 +31,7 @@ export const router = createBrowserRouter([
   {
     path: "dashboard",
     element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "",
