@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import { serverURL } from "../../../serverURL";
+import axios from "axios";
 
 const AddNewTask = () => {
+  const token = localStorage.getItem("token");
   const {
     register,
     handleSubmit,
@@ -12,10 +15,23 @@ const AddNewTask = () => {
   const onSubmit = (data) => {
     // Log the form data to the console
     console.log("Form Data:", data);
-
-    // Dummy success notification
-    toast.success("Task added successfully!");
-
+    axios
+      .post(`${serverURL}/tasks`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(function (response) {
+        console.log(response);
+        console.log(response.data);
+        if (response.data?.insertedId) {
+          toast.success("Task added successfully!");
+        }
+        // reset();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     // Dummy failure case (uncomment to test)
     // toast.error('Failed to add task. Please try again.');
   };
