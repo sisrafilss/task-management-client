@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import GoogleLogin from "../components/GoogleLogin";
 import useAuth from "../hooks/useAuth";
+import axios from "axios";
+import { serverURL } from "../../serverURL";
 
 const RegisterPage = () => {
   const { createUser, } = useAuth();
@@ -38,13 +40,12 @@ const RegisterPage = () => {
             name: data?.name,
           };
 
-          console.log("User Data:", userData);
-          // axios
-          //   .post("http://localhost:5000/user", userData)
-          //   .then((response) => {
-          //     console.log(response.data.token);
-          //     localStorage.setItem("token", response?.data?.token);
-          //   });
+          axios
+            .post(`${serverURL}/user`, userData)
+            .then((response) => {
+              console.log(response.data.token);
+              localStorage.setItem("token", response?.data?.token);
+            });
         }
       });
     }
