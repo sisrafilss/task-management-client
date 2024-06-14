@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { FaBars, FaTasks, FaPlus, FaSignOutAlt } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
+  const { logOut } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => setDrawerOpen(!drawerOpen);
@@ -53,7 +55,7 @@ const DashboardLayout = () => {
               Task Manager
             </Link>
           </li>
-         
+
           <li>
             <Link
               to="add-new"
@@ -75,7 +77,7 @@ const DashboardLayout = () => {
           <li className="mt-auto">
             <button
               className="w-full flex items-center p-2 bg-red-600 hover:bg-red-700 rounded mt-6"
-              onClick={() => console.log("Logout")}
+              onClick={logOut}
             >
               <FaSignOutAlt className="mr-2" /> Logout
             </button>
