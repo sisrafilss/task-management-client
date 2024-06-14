@@ -44,7 +44,7 @@ const DashboardLayout = () => {
           onClick={closeDrawer}
           aria-label="close sidebar"
         ></label>
-        <ul className="menu p-4 w-80 min-h-full bg-gray-900 text-gray-300">
+        <ul className="menu p-4 w-60 min-h-full bg-gray-900 text-gray-300">
           {/* Sidebar content */}
           <li className="mb-6">
             <Link
